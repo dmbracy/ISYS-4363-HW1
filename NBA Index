@@ -1,0 +1,201 @@
+using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+namespace GetPlayers 
+{ 
+    class Program 
+    { 
+        static void Main(string[] args) 
+        { 
+            Console.WriteLine("Beginning ...");
+
+            double wins = 0;
+            double finals = 0;
+            double gap = 0;
+            double champ = 0;
+            double playoffs = 0;
+            string team = "Utah Jazz";
+
+            IWebDriver driver = new ChromeDriver("C:/Temp");
+            //total wins
+            driver.Url = "https://www.nba.com/stats/teams/traditional/?sort=GP&dir=-1&Season=2020-21&SeasonType=Regular%20Season"; 
+           
+            Console.WriteLine("Title: " + driver.Title);
+            Console.WriteLine("URL: " + driver.Url); 
+            Console.WriteLine(driver.PageSource); 
+            
+            IWebElement table = driver.FindElement(By.XPath("/html/body/main/div/div/div[2]/div/div/nba-stat-table/div[2]/div[1]/table")); 
+            var rows = table.FindElements(By.TagName("tr"));
+            foreach (var row in rows)
+            {
+                if (row.Text.Contains(team))
+                {
+                    var tds = row.FindElements(By.TagName("td"));
+                    foreach (var entry in tds)
+                    {
+                        var anchors = entry.FindElements(By.XPath("/html/body/main/div/div/div[2]/div/div/nba-stat-table/div[2]/div[1]/table/tbody/tr[1]/td[6]"));
+                        int b = 0;
+                        foreach (var anchor in anchors)
+                        {
+                            b++;
+                            if (b == 1)
+                            {
+                                Console.Write(team + "\t" + anchor.Text + "\t");
+                                wins = double.Parse(anchor.Text, System.Globalization.NumberStyles.Number);
+                            }
+                        }
+                    }
+                } 
+                Console.WriteLine();
+            }
+            //source 2
+            driver.Url = "https://en.hispanosnba.com/nba/history/team-records";
+
+            Console.WriteLine("Title: " + driver.Title);
+            Console.WriteLine("URL: " + driver.Url);
+            Console.WriteLine(driver.PageSource);
+
+            IWebElement table2 = driver.FindElement(By.XPath("/html/body/form/div[4]/main/table"));
+            var rows2 = table2.FindElements(By.TagName("tr"));
+            foreach (var row in rows2)
+            {
+                if (row.Text.Contains(team))
+                {
+                    var tds = row.FindElements(By.TagName("td"));
+                    foreach (var entry in tds)
+                    {
+                        var anchors = entry.FindElements(By.XPath("/html/body/form/div[4]/main/table/tbody/tr[21]/td[2]"));
+                        int b = 0;
+                        foreach (var anchor in anchors)
+                        {
+                            b++;
+                            if (b == 1)
+                            {
+                                Console.Write(team + "\t" + anchor.Text + "\t");
+                                finals = double.Parse(anchor.Text, System.Globalization.NumberStyles.Number);
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+
+
+            //source 3
+            driver.Url = "https://www.nba.com/longest-gap-between-finals-appearances";
+
+            Console.WriteLine("Title: " + driver.Title);
+            Console.WriteLine("URL: " + driver.Url);
+            Console.WriteLine(driver.PageSource);
+
+            IWebElement table3 = driver.FindElement(By.XPath("/html/body/div[1]/div[2]/main/div[2]/section/div[2]/section/table"));
+            var rows3 = table3.FindElements(By.TagName("tr"));
+            foreach (var row in rows3)
+            {
+                if (row.Text.Contains(team))
+                {
+                    var tds = row.FindElements(By.TagName("td"));
+                    foreach (var entry in tds)
+                    {
+                        var anchors = entry.FindElements(By.XPath("/html/body/div[1]/div[2]/main/div[2]/section/div[2]/section/table/tbody/tr[29]/td[4]"));
+                        int b = 0;
+                        foreach (var anchor in anchors)
+                        {
+                            b++;
+                            if (b == 1)
+                            {
+                                Console.Write(entry + "\t" + anchor.Text + "\t");
+                                gap = double.Parse(anchor.Text, System.Globalization.NumberStyles.Number);
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+
+            //source 4
+            driver.Url = "https://en.hispanosnba.com/nba/history/team-records";
+
+            Console.WriteLine("Title: " + driver.Title);
+            Console.WriteLine("URL: " + driver.Url);
+            Console.WriteLine(driver.PageSource);
+
+            IWebElement table4 = driver.FindElement(By.XPath("/html/body/form/div[4]/main/table"));
+            var rows4 = table4.FindElements(By.TagName("tr"));
+            foreach (var row in rows4)
+            {
+                if (row.Text.Contains(team))
+                {
+                    var tds = row.FindElements(By.TagName("td"));
+                    foreach (var entry in tds)
+                    {
+                        var anchors = entry.FindElements(By.XPath("/html/body/form/div[4]/main/table/tbody/tr[21]/td[1]"));
+                        int b = 0;
+                        foreach (var anchor in anchors)
+                        {
+                            b++;
+                            if (b == 1)
+                            {
+                                Console.Write(team + "\t" + anchor.Text + "\t");
+                                champ = double.Parse(anchor.Text, System.Globalization.NumberStyles.Number);
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+
+
+            driver.Url = "https://en.hispanosnba.com/nba/history/team-records";
+
+            Console.WriteLine("Title: " + driver.Title);
+            Console.WriteLine("URL: " + driver.Url);
+            Console.WriteLine(driver.PageSource);
+
+            IWebElement table5 = driver.FindElement(By.XPath("/html/body/form/div[4]/main/table"));
+            var rows5 = table5.FindElements(By.TagName("tr"));
+            foreach (var row in rows5)
+            {
+                if (row.Text.Contains(team))
+                {
+
+                    var tds = row.FindElements(By.TagName("td"));
+                    foreach (var entry in tds)
+                    {
+                        var anchors = entry.FindElements(By.XPath("/html/body/form/div[4]/main/table/tbody/tr[21]/td[4]"));
+                        int b = 0;
+                        foreach (var anchor in anchors)
+                        {
+                            b++;
+                            if (b == 1)
+                            {
+                                Console.Write(entry + "\t" + anchor.Text + "\t");
+                                playoffs = double.Parse(anchor.Text, System.Globalization.NumberStyles.Number);
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+
+            double index = (wins / 72) * ((2.4667 + champ) / gap) * (finals / playoffs);
+            Console.WriteLine("Utah Jazz Championship Index");
+            Console.WriteLine("Season Wins: " + wins);
+            Console.WriteLine("Championship Wins: " + champ);
+            Console.WriteLine("Years Since Last Finals Appearance: " + gap);
+            Console.WriteLine("Number of Finals Appearances: " + finals);
+            Console.WriteLine("Number of Playoff Appearances: " + playoffs);
+
+            Console.WriteLine("The index calculation for the " + team + "is " + index);
+
+            Console.WriteLine("Based on the index above, the " + team + "has a " + index + " chance of winning the NBA championship next season.");
+
+            driver.Quit();
+            Console.Write("press any key to end ...");
+            Console.ReadLine();
+
+        }
+
+    } 
+}
+
